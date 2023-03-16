@@ -1,6 +1,7 @@
 import MessageListItem from '../components/MessageListItem';
+import PinListItem from '../components/PinListItem';
 import { useState } from 'react';
-import { Message, getMessages } from '../data/messages';
+import { Pin, getPins } from '../data/pins';
 import {
   IonButtons,
   IonContent,
@@ -13,13 +14,33 @@ import {
   IonRefresherContent,
   IonTitle,
   IonToolbar,
-  useIonViewWillEnter
+  useIonViewWillEnter,
+  IonButton,
+  IonCard, 
+  IonCardContent, 
+  IonCardHeader, 
+  IonCardSubtitle, 
+  IonCardTitle
 } from '@ionic/react';
 import './Home.css';
 
-function Example() {
+const Home: React.FC = () => {
+
+  const [pins, setPins] = useState<Pin[]>([]);
+
+  useIonViewWillEnter(() => {
+    const cpins = getPins();
+    setPins(cpins);
+  });
+
+  const refresh = (e: CustomEvent) => {
+    setTimeout(() => {
+      e.detail.complete();
+    }, 3000);
+  };
+
   return (
-    <>
+    <IonPage id="home-page">
       <IonMenu contentId="main-content">
         <IonHeader>
           <IonToolbar>
@@ -28,65 +49,47 @@ function Example() {
         </IonHeader>
         <IonContent className="ion-padding">This is the menu content.</IonContent>
       </IonMenu>
-      <IonPage id="main-content">
         <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">
               <IonMenuButton></IonMenuButton>
             </IonButtons>
-            <IonTitle>Menu</IonTitle>
+            <IonTitle>Histoires</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <IonContent className="ion-padding">
-          Tap the button in the toolbar to open the menu.
-        </IonContent>
-      </IonPage>
-    </>
+      <IonContent fullscreen>
+        <IonRefresher slot="fixed" onIonRefresh={refresh}>
+          <IonRefresherContent></IonRefresherContent>
+        </IonRefresher>
+
+        <IonHeader collapse="condense">
+          <IonToolbar>
+              <IonButtons slot="start">
+                <IonMenuButton></IonMenuButton>
+              </IonButtons>
+              <IonTitle>Histoires</IonTitle>
+            </IonToolbar>
+        </IonHeader>
+
+        <IonList>
+          {pins.map(m => <PinListItem key={m.id} pin={m} />)}
+        </IonList>
+      </IonContent>
+      <IonCard>
+        <IonCardHeader>
+          <IonCardTitle>Créer une nouvelle épingle</IonCardTitle>
+        </IonCardHeader>
+
+        <IonCardContent>
+          <div>Titre :</div>
+          <div>Citation :</div>
+        </IonCardContent>
+
+      <IonButton fill="clear">Créer</IonButton>
+      </IonCard>
+    </IonPage>
+    
   );
-}
-export default Example;
+};
 
-// const Home: React.FC = () => {
-
-//   const [messages, setMessages] = useState<Message[]>([]);
-
-//   useIonViewWillEnter(() => {
-//     const msgs = getMessages();
-//     setMessages(msgs);
-//   });
-
-//   const refresh = (e: CustomEvent) => {
-//     setTimeout(() => {
-//       e.detail.complete();
-//     }, 3000);
-//   };
-
-//   return (
-//     <IonPage id="home-page">
-//       <IonHeader>
-//         <IonToolbar>
-//           <IonTitle>Inbox</IonTitle>
-//         </IonToolbar>
-//       </IonHeader>
-//       <IonContent fullscreen>
-//         <IonRefresher slot="fixed" onIonRefresh={refresh}>
-//           <IonRefresherContent></IonRefresherContent>
-//         </IonRefresher>
-
-//         <IonHeader collapse="condense">
-//           <IonToolbar>
-//             <IonTitle size="large">
-//               Inbox
-//             </IonTitle>
-//           </IonToolbar>
-//         </IonHeader>
-
-//         <IonList>
-//           {messages.map(m => <MessageListItem key={m.id} message={m} />)}
-//         </IonList>
-//       </IonContent>
-//     </IonPage>
-//   );
-// };
-
-// export default Home;
+export default Home;
