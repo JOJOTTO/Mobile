@@ -6,11 +6,12 @@ export interface Pin {
     source: string;
     page_ref: string;
     tags: string[];
-    preferences: 1 | 2 | 3;
+    preferences: number;
     creation_date: string;
 }
 
-const pin: Pin[] = [
+const pinsFromStorage = JSON.parse(localStorage.getItem('pins') || '[]');
+const pin: Pin[] = pinsFromStorage.length ? pinsFromStorage : [
     {
       id: 0,
       title: 'Curious Cat',
@@ -101,6 +102,10 @@ const pin: Pin[] = [
     }
   ];
 
+export const addPin = (newPin: Pin) => {pin.push(newPin);};
+
 export const getPins = () => pin;
 
 export const getPin = (id: number) => pin.find(m => m.id === id);
+
+export const getPinByTitle = (title: string) => pin.find(m => m.title === title);

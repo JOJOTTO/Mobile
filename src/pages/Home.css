@@ -1,0 +1,16 @@
+#view-card-title input {
+    border-top: 0 solid #ccc;
+    border-left: 0 solid #ccc;
+    border-right: 0 solid #ccc;
+    border-bottom: 1px solid #ccc;
+    border-radius: 2px;
+    width: 500px;
+
+  }
+
+  #view-card-citation input {
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    height: 100px;
+    width: 500px;
+  }

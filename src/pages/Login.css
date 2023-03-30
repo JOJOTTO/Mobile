@@ -1,0 +1,25 @@
+#card {
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    width: 500px;
+    height: 230px;
+    margin: 0 auto;
+    margin-top: 200px;
+    padding: 10px;
+    background-color: #fff;
+}
+
+#title {
+    text-align: center;
+    font-style: bold;
+    font-size: 30px;
+}
+
+#input {
+    font-size: 15px;
+    border-bottom: 1px solid #ccc;
+    border-radius: 2px;
+    border-top: 0 solid #ccc;
+    border-left: 0 solid #ccc;
+    border-right: 0 solid #ccc;
+}

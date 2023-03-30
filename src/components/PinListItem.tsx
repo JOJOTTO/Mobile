@@ -1,32 +1,46 @@
+import React from 'react';
 import {
-    IonItem,
-    IonLabel,
-    IonNote
-    } from '@ionic/react';
+  IonItem,
+  IonLabel,
+  IonNote, 
+  IonChip,
+  IonButton
+} from '@ionic/react';
 import { Pin } from '../data/pins';
 import './PinListItem.css';
 
 interface PinListItemProps {
-    pin: Pin;
-  }
+  pin: Pin;
+  onDelete: (id: number) => void;
+}
 
-  const PinListItem: React.FC<PinListItemProps> = ({ pin }) => {
-    return (
-      <IonItem routerLink={`/pin/${pin.id}`} detail={false}>
-        <div slot="start" className="dot dot-unread"></div>
-        <IonLabel className="ion-text-wrap">
-          <h2>
-            {pin.title}
-            <span className="date">
-              <IonNote>{pin.creation_date}</IonNote>
-            </span>
-          </h2>
-          <p>
-            {pin.text}
-          </p>
-        </IonLabel>
-      </IonItem>
-    );
+const PinListItem: React.FC<PinListItemProps> = ({ pin, onDelete }) => {
+  const handleDelete = (event: React.MouseEvent<HTMLIonButtonElement, MouseEvent>, id: number) => {
+    event.preventDefault();
+    onDelete(id);
   };
+  
 
-  export default PinListItem;
+  return (
+    <IonItem routerLink={`/pin/${pin.id}`} detail={false} onClick={(e) => e.stopPropagation()}>
+  <div slot="start" className="dot dot-unread"></div>
+  <IonLabel className="ion-text-wrap">
+    <div className="message-header">
+      <h1>{pin.title}</h1>
+      <div className="chip-container">
+        {pin.tags.map((tag, index) => (
+          <IonChip key={index} outline={true}>
+            #{tag}
+          </IonChip>
+        ))}
+      </div>
+    </div>
+    <IonNote>{pin.text}</IonNote>
+  </IonLabel>
+  <IonButton slot="end" color="danger" onClick={(event) => handleDelete(event, pin.id)}>Delete</IonButton>
+</IonItem>
+
+  );
+};
+
+export default PinListItem;
