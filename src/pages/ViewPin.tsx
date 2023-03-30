@@ -31,7 +31,7 @@ function ViewPin() {
       <IonHeader translucent>
         <IonToolbar>
           <IonButtons slot="start">
-            <IonBackButton text="Histoires" defaultHref="/home"></IonBackButton>
+            <IonBackButton text="Inbox" defaultHref="/home"></IonBackButton>
           </IonButtons>
         </IonToolbar>
       </IonHeader>
@@ -40,20 +40,19 @@ function ViewPin() {
         {pin ? (
           <>
             <IonItem>
+              <IonIcon aria-hidden="true" icon={personCircle} color="primary"></IonIcon>
               <IonLabel className="ion-text-wrap">
                 <h2>
                   {pin.title}
                   <span className="date">
-                    <IonNote>{pin.creation_date}</IonNote>
+                    <IonNote>Creation date: {pin.creation_date.toLocaleString()}</IonNote>
                   </span>
                 </h2>
               </IonLabel>
             </IonItem>
 
             <div className="ion-padding">
-              <p>
-                {pin.text}
-              </p>
+              <h1>{pin.text}</h1>
             </div>
           </>
         ) : (
